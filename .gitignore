@@ -1,0 +1,6 @@
+.env
+upload
+.venv
+__pycache__
+poetry.lock
+.vscode
