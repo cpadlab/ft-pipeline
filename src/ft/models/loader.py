@@ -282,7 +282,8 @@ class SLMModelLoader:
         *,
         prepare_for_training: bool,
     ) -> PreTrainedModel:
-    """Instantiates the causal language model and optionally prepares k-bit training.
+        """
+        Instantiates the causal language model and optionally prepares k-bit training.
 
         Disables KV cache (`use_cache = False`) for training compatibility and wraps
         quantized models with `prepare_model_for_kbit_training` when requested.
