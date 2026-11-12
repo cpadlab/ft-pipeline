@@ -1,4 +1,9 @@
 
+from ft.training.exporter import (
+    ExportDType,
+    ExportResult,
+    SLMAdapterExporter,
+)
 from ft.training.schemas import (
     LoRASettings,
     OptimizerName,
@@ -12,8 +17,11 @@ from ft.training.trainer import (
 )
 
 __all__ = [
+    "ExportDType",
+    "ExportResult",
     "LoRASettings",
     "OptimizerName",
+    "SLMAdapterExporter",
     "SLMTrainer",
     "SchedulerName",
     "SFTTrainingSettings",
