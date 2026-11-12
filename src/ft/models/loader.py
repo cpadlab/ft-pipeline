@@ -306,7 +306,7 @@ class SLMModelLoader:
         if bnb_config is not None:
             load_kwargs["quantization_config"] = bnb_config
         else:
-            load_kwargs["torch_dtype"] = self.compute_dtype
+            load_kwargs["dtype"] = self.compute_dtype
 
         model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(source, **load_kwargs)
         model.config.use_cache = False
