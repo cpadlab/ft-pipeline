@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal
 from peft import LoraConfig, TaskType
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field
 from trl import SFTConfig
 
 
@@ -83,16 +83,6 @@ class SFTTrainingSettings(BaseModel):
     packing: bool = Field(default=False)
     seed: int = Field(default=42, ge=0)
     eval_split_ratio: float = Field(default=0.1, ge=0.0, lt=0.5)
-
-    @model_validator(mode="after")
-    def _validate_eval_save_alignment(self) -> SFTTrainingSettings:
-        """
-        Ensures save_strategy remains valid when evaluation split is disabled.
-        """
-        if self.eval_split_ratio <= 0.0 and self.save_strategy == "no":
-            return self
-        
-        return self
 
 
     def to_trl_sft_config(self, *, use_bf16: bool, has_eval_dataset: bool) -> SFTConfig:
