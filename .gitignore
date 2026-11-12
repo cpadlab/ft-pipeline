@@ -9,3 +9,4 @@ poetry.lock
 .coverage
 test-results.xml
 coverage.xml
+.scannerwork
