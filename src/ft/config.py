@@ -14,6 +14,26 @@ class Settings(BaseSettings):
     AI_VERIFY_SSL: bool = Field(default=True)
     AI_MAX_CONCURRENCY: int = Field(default=4, ge=1, le=100)
 
+    HF_TOKEN: SecretStr | None = Field(default=None, min_length=10)
+
+    @field_validator("HF_TOKEN", mode="before")
+    @classmethod
+    def _empty_token_to_none(cls, value: object) -> object:
+        """
+        Converts empty or whitespace-only token strings from `.env` files into None.
+
+        Args:
+            value (object): Raw value parsed from environment variables or `.env`.
+
+        Returns:
+            object: `None` if `value` is an empty or whitespace-only string;
+                otherwise returns `value` unchanged.
+        """
+        if isinstance(value, str) and not value.strip():
+            return None
+
+        return value
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
