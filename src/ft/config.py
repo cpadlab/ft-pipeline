@@ -4,6 +4,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """
+    Runtime settings loaded from environment variables or a `.env` file.
+    """
 
     AI_BASE_URL: AnyHttpUrl = Field(default="http://localhost:8000/v1")
     AI_API_KEY: SecretStr = Field(..., min_length=10)
@@ -21,4 +24,7 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
+    """
+    Returns a cached singleton instance of `Settings`.
+    """
     return Settings()
