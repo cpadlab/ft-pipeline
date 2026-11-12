@@ -114,7 +114,7 @@ class SFTTrainingSettings(BaseModel):
             per_device_train_batch_size=self.per_device_train_batch_size,
             gradient_accumulation_steps=self.gradient_accumulation_steps,
             learning_rate=self.learning_rate,
-            warmup_ratio=self.warmup_ratio,
+            warmup_steps=self.warmup_ratio,
             weight_decay=self.weight_decay,
             max_length=self.max_seq_length,
             optim=self.optim,
