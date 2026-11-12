@@ -4,3 +4,8 @@ upload
 __pycache__
 poetry.lock
 .vscode
+/models/**
+/data/processed/**
+.coverage
+test-results.xml
+coverage.xml
