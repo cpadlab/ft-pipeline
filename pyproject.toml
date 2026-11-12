@@ -45,10 +45,10 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --strict-markers --cov=pde --cov-report=term-missing --cov-report=xml --junitxml=test-results.xml"
+addopts = "-v --strict-markers --cov=ft --cov-report=term-missing --cov-report=xml --junitxml=test-results.xml"
 
 [tool.coverage.run]
-source = ["src/pde"]
+source = ["src/ft"]
 branch = true
 
 [tool.coverage.report]
