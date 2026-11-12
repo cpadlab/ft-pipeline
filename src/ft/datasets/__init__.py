@@ -1,5 +1,6 @@
 
 from ft.datasets.ingest import DocumentChunk, PDFIngestor
+from ft.datasets.pipeline import DatasetPipeline, DatasetPipelineResult
 from ft.datasets.serializer import (
     JSONLSerializer,
     MessageProtocol,
@@ -16,6 +17,8 @@ from ft.datasets.synthesizer import (
 __all__ = [
     "ChatMessage",
     "ChunkProtocol",
+    "DatasetPipeline",
+    "DatasetPipelineResult",
     "DatasetSynthesizer",
     "DocumentChunk",
     "JSONLSerializer",
