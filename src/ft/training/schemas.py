@@ -89,7 +89,7 @@ class SFTTrainingSettings(BaseModel):
         """
         Ensures save_strategy remains valid when evaluation split is disabled.
         """
-        if self.eval_split_ratio == 0.0 and self.save_strategy == "no":
+        if self.eval_split_ratio <= 0.0 and self.save_strategy == "no":
             return self
         
         return self
