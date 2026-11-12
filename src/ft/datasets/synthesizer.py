@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 import asyncio
 from collections.abc import Sequence
@@ -206,7 +207,7 @@ class DatasetSynthesizer:
         resolved_key = (
             api_key if api_key is not None else settings.AI_API_KEY.get_secret_value()  # type: ignore[union-attr]
         )
-        
+
         resolved_url = (
             base_url if base_url is not None else str(settings.AI_BASE_URL)  # type: ignore[union-attr]
         )
