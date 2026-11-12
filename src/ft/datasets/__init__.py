@@ -1,5 +1,10 @@
 
 from ft.datasets.ingest import DocumentChunk, PDFIngestor
+from ft.datasets.serializer import (
+    JSONLSerializer,
+    MessageProtocol,
+    SFTRecordProtocol,
+)
 from ft.datasets.synthesizer import (
     ChatMessage,
     ChunkProtocol,
@@ -11,9 +16,12 @@ from ft.datasets.synthesizer import (
 __all__ = [
     "ChatMessage",
     "ChunkProtocol",
-    "DSynthesizer",
+    "DatasetSynthesizer",
     "DocumentChunk",
+    "JSONLSerializer",
+    "MessageProtocol",
     "PDFIngestor",
     "QAPair",
     "SFTRecord",
+    "SFTRecordProtocol",
 ]
