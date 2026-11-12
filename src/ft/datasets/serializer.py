@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Final, Literal, Protocol, runtime_checkable
 
 
+JSONL_EXTENSION: Final[str] = ".jsonl"
 DEFAULT_OUTPUT_FILENAME: Final[str] = "dataset.jsonl"
 
 
@@ -79,7 +80,7 @@ class JSONLSerializer:
         """
         if (
             not default_filename
-            or not default_filename.endswith(".jsonl")
+            or not default_filename.endswith(JSONL_EXTENSION)
             or Path(default_filename).name != default_filename
         ):
             raise ValueError(
@@ -213,12 +214,12 @@ class JSONLSerializer:
             if path.is_dir():
                 return path / self.default_filename
             
-            if path.suffix.lower() != ".jsonl":
+            if path.suffix.lower() != JSONL_EXTENSION:
                 raise FileExistsError(f"Cannot treat '{path}' as an output directory because a file with that name exists")
 
             return path
 
-        return path if path.suffix.lower() == ".jsonl" else path / self.default_filename
+        return path if path.suffix.lower() == JSONL_EXTENSION else path / self.default_filename
 
 
     @staticmethod
