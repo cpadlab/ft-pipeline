@@ -6,7 +6,7 @@ from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final, Literal
-
+from huggingface_hub.errors import GatedRepoError
 from huggingface_hub import HfApi, ModelInfo, snapshot_download
 from transformers import AutoConfig, PretrainedConfig
 
@@ -368,18 +368,25 @@ class SLMRegistry:
             profile.model_type,
         )
 
-        snapshot_path = snapshot_download(
-            repo_id=model_id,
-            local_dir=str(local_dir) if local_dir is not None else None,
-            token=self._hf_token,
-            ignore_patterns=["*.msgpack", "*.h5", "*.ot", "original/*"],
-        )
+        try:
+            snapshot_path = snapshot_download(
+                repo_id=model_id,
+                local_dir=str(local_dir) if local_dir is not None else None,
+                token=self._hf_token,
+                ignore_patterns=["*.msgpack", "*.h5", "*.ot", "original/*"],
+            )
+        except GatedRepoError as exc:
+            raise PermissionError(
+                f"Access denied for gated model '{model_id}'. Accept its license at "
+                f"https://huggingface.co/{model_id} and ensure HF_TOKEN has read permissions."
+            ) from exc
 
         return Path(snapshot_path)
 
 
     def _validate_param_bounds(self, min_params_b: float, max_params_b: float) -> None:
-        """Validates requested lower and upper parameter bounds against registry limits.
+        """
+        Validates requested lower and upper parameter bounds against registry limits.
 
         Args:
             min_params_b (float): Lower parameter threshold in billions.
