@@ -54,8 +54,8 @@ def _add_dataset_arguments(parser: argparse.ArgumentParser, *, required_pdf: boo
     group.add_argument(
         "--max-concurrency",
         type=int,
-        default=5,
-        help="Maximum concurrent LLM API requests during dataset synthesis (default: 5).",
+        default=None,
+        help="Maximum concurrent LLM API requests during synthesis (overrides AI_MAX_CONCURRENCY in .env).",
     )
     group.add_argument(
         "--include-metadata",
@@ -76,6 +76,45 @@ def _add_dataset_arguments(parser: argparse.ArgumentParser, *, required_pdf: boo
         "--append",
         action="store_true",
         help="Append synthesized records to an existing JSONL file.",
+    )
+
+
+def _add_ai_arguments(parser: argparse.ArgumentParser) -> None:
+    """
+    Registers OpenAI-compatible LLM synthesizer connection and generation options.
+
+    Args:
+        parser (argparse.ArgumentParser): Target subcommand parser (`dataset` or `run`).
+    """
+    group = parser.add_argument_group("AI Synthesis Options")
+    group.add_argument(
+        "--ai-base-url",
+        type=str,
+        default=None,
+        help="OpenAI-compatible endpoint base URL (overrides AI_BASE_URL in .env).",
+    )
+    group.add_argument(
+        "--ai-api-key",
+        type=str,
+        default=None,
+        help="API key for the synthesis LLM endpoint (overrides AI_API_KEY in .env).",
+    )
+    group.add_argument(
+        "--ai-model",
+        type=str,
+        default=None,
+        help="LLM model identifier used for QA synthesis (overrides AI_MODEL in .env).",
+    )
+    group.add_argument(
+        "--ai-temperature",
+        type=float,
+        default=0.2,
+        help="Sampling temperature in [0.0, 2.0] for QA synthesis (default: 0.2).",
+    )
+    group.add_argument(
+        "--ai-no-verify-ssl",
+        action="store_true",
+        help="Disable TLS certificate verification for the synthesis endpoint (overrides AI_VERIFY_SSL).",
     )
 
 
@@ -360,6 +399,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Generate a conversational SFT JSONL dataset from PDF documents.",
     )
     _add_dataset_arguments(dataset_parser, required_pdf=True)
+    _add_ai_arguments(dataset_parser)
 
     train_parser = subparsers.add_parser(
         "train",
@@ -383,6 +423,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     _add_dataset_arguments(run_parser, required_pdf=True)
+    _add_ai_arguments(run_parser)
     _add_model_arguments(run_parser)
     _add_lora_arguments(run_parser)
     _add_training_arguments(run_parser)

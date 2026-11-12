@@ -61,8 +61,13 @@ async def _run_dataset_step(args: argparse.Namespace) -> Path:
     )
 
     async with DatasetSynthesizer(
+        api_key=args.ai_api_key,
+        base_url=args.ai_base_url,
+        model=args.ai_model,
+        verify_ssl=False if args.ai_no_verify_ssl else None,
         max_concurrency=args.max_concurrency,
         questions_per_chunk=args.pairs_per_chunk,
+        temperature=args.ai_temperature,
     ) as synthesizer:
         pipeline = DatasetPipeline(
             ingestor=ingestor,
